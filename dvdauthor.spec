@@ -14,6 +14,7 @@ BuildRequires:	png-devel
 BuildRequires:	zlib-devel
 BuildRequires:	ImageMagick-devel
 BuildRequires:	libdvdread-devel
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 A simple set of tools to help you author a DVD.
