@@ -1,7 +1,7 @@
 Summary:	A simple set of tools to help you author a DVD
 Name:		dvdauthor
 Version:	0.6.14
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	GPL
 Group:		Video
 Url:		http://dvdauthor.sourceforge.net/
@@ -12,7 +12,7 @@ BuildRequires:	fribidi-devel
 BuildRequires:	bison flex
 BuildRequires:	png-devel
 BuildRequires:	zlib-devel
-BuildRequires:	ImageMagick-devel
+BuildRequires:	imagemagick-devel
 BuildRequires:	libdvdread-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
