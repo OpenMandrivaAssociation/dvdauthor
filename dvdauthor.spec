@@ -6,6 +6,7 @@ License:	GPL
 Group:		Video
 Url:		http://dvdauthor.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/dvdauthor/dvdauthor-%{version}.tar.gz
+Patch0:		dvdauthor-imagemagick-6.3.8.5.diff
 BuildRequires:	libxml2-devel >= 2.6.0
 BuildRequires:	freetype2-devel
 BuildRequires:	fribidi-devel
@@ -17,18 +18,18 @@ BuildRequires:	libdvdread-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
-A simple set of tools to help you author a DVD.
-The idea is to be able to create menus, buttons, chapters, etc.
-But for now you can just take an mpeg stream 
-(as created by mplex -f 8 from mjpegtools 1.6.0) and write it to DVD.
+A simple set of tools to help you author a DVD. The idea is to be able to
+create menus, buttons, chapters, etc. But for now you can just take an mpeg
+stream  (as created by mplex -f 8 from mjpegtools 1.6.0) and write it to DVD.
 
 %prep
-%setup -q
 
-%configure2_5x \
-	--disable-rpath
+%setup -q
+%patch0 -p1
 
 %build
+%configure2_5x \
+	--disable-rpath
 %make
 
 %install
@@ -46,5 +47,3 @@ But for now you can just take an mpeg stream
 %attr(755,root,root) %{_bindir}/spu*
 %{_mandir}/man1/*
 %{_datadir}/%{name}
-
-
