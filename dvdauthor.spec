@@ -27,6 +27,9 @@ stream  (as created by mplex -f 8 from mjpegtools 1.6.0) and write it to DVD.
 %setup -q
 %patch0 -p1
 
+# anti auto recheck hack
+touch *
+
 %build
 %configure2_5x \
 	--disable-rpath
