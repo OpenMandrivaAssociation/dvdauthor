@@ -1,12 +1,17 @@
 Summary:	A simple set of tools to help you author a DVD
 Name:		dvdauthor
-Version:	0.6.14
-Release:	%mkrel 9
-License:	GPL
+Version:	0.6.17
+Release:	%mkrel 1
+License:	LGPLv2
 Group:		Video
-Url:		http://dvdauthor.sourceforge.net/
-Source0:	http://downloads.sourceforge.net/dvdauthor/dvdauthor-%{version}.tar.gz
+#old url http://dvdauthor.sourceforge.net/
+Url:		http://www.joonet.de/dvdauthor
+Source0:	http://www.joonet.de/dvdauthor/ftp/%{name}-%{version}.tar.gz
+Source1:	http://www.joonet.de/dvdauthor/ftp/%{name}-doc-%{version}.tar.gz
 Patch0:		dvdauthor-imagemagick-6.3.8.5.diff
+#add patches to fix FriBidi build (from Fedora)
+Patch1:		dvdauthor-0.6.17-use-pkg-config-to-find-FriBidi.patch
+Patch2:		dvdauthor-0.6.17-fix-build-with-FriBidi-0.19.x.patch
 BuildRequires:	libxml2-devel >= 2.6.0
 BuildRequires:	freetype2-devel
 BuildRequires:	fribidi-devel
@@ -15,20 +20,22 @@ BuildRequires:	png-devel
 BuildRequires:	zlib-devel
 BuildRequires:	imagemagick-devel
 BuildRequires:	libdvdread-devel
+BuildRequires:	autoconf automake gettext-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 A simple set of tools to help you author a DVD. The idea is to be able to
 create menus, buttons, chapters, etc. But for now you can just take an mpeg
-stream  (as created by mplex -f 8 from mjpegtools 1.6.0) and write it to DVD.
+stream (as created by mplex -f 8 from mjpegtools 1.6.0) and write it to DVD.
 
 %prep
 
-%setup -q
+%setup -q -a 1
 %patch0 -p1
-
-# anti auto recheck hack
-touch *
+%patch1 -p0
+%patch2 -p0
+autoreconf
+mv %{name}-doc-%{version}/html .
 
 %build
 %configure2_5x \
@@ -36,17 +43,20 @@ touch *
 %make
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
-
+rm -rf %{buildroot}
 %makeinstall_std
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/dvd*
-%attr(755,root,root) %{_bindir}/mpeg2desc
-%attr(755,root,root) %{_bindir}/spu*
+%defattr(-,root,root)
+%doc AUTHORS README ChangeLog COPYING INSTALL TODO html
+%{_bindir}/dvdauthor
+%{_bindir}/dvddirdel
+%{_bindir}/dvdunauthor
+%{_bindir}/mpeg2desc
+%{_bindir}/spumux
+%{_bindir}/spuunmux
 %{_mandir}/man1/*
 %{_datadir}/%{name}
