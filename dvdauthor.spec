@@ -1,17 +1,13 @@
 Summary:	A simple set of tools to help you author a DVD
 Name:		dvdauthor
-Version:	0.6.17
-Release:	%mkrel 2
-License:	LGPLv2
+Version:	0.6.18
+Release:	%mkrel 1
+License:	GPLv2
 Group:		Video
-#old url http://dvdauthor.sourceforge.net/
-Url:		http://www.joonet.de/dvdauthor
-Source0:	http://www.joonet.de/dvdauthor/ftp/%{name}-%{version}.tar.gz
-Source1:	http://www.joonet.de/dvdauthor/ftp/%{name}-doc-%{version}.tar.gz
-Patch0:		dvdauthor-imagemagick-6.3.8.5.diff
-#add patches to fix FriBidi build (from Fedora)
-Patch1:		dvdauthor-0.6.17-use-pkg-config-to-find-FriBidi.patch
-Patch2:		dvdauthor-0.6.17-fix-build-with-FriBidi-0.19.x.patch
+Url:		http://dvdauthor.sourceforge.net/
+Source0:	http://downloads.sourceforge.net/project/dvdauthor/dvdauthor/%{version}/%{name}-%{version}.tar.gz
+Source1:	http://www.joonet.de/dvdauthor/ftp/%{name}-doc-0.6.17.tar.gz
+Patch0:		dvdauthor-imagemagick-0.6.18.patch
 BuildRequires:	libxml2-devel >= 2.6.0
 BuildRequires:	freetype2-devel
 BuildRequires:	fribidi-devel
@@ -30,16 +26,15 @@ stream (as created by mplex -f 8 from mjpegtools 1.6.0) and write it to DVD.
 
 %prep
 
-%setup -q -a 1
-%patch0 -p1
-%patch1 -p0
-%patch2 -p0
-autoreconf
-mv %{name}-doc-%{version}/html .
+%setup -q -n %{name} -a 1
+%patch0 -p0
+
+autoreconf -fi
+
+mv %{name}-doc-0.6.17/html .
 
 %build
-%configure2_5x \
-	--disable-rpath
+%configure2_5x --disable-rpath
 %make
 
 %install
