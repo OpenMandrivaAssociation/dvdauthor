@@ -1,13 +1,13 @@
 Summary:	A simple set of tools to help you author a DVD
 Name:		dvdauthor
-Version:	0.6.18
-Release:	%mkrel 2
+Version:	0.7.0
+Release:	%mkrel 1
 License:	GPLv2
 Group:		Video
 Url:		http://dvdauthor.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/project/dvdauthor/dvdauthor/%{version}/%{name}-%{version}.tar.gz
 Source1:	http://www.joonet.de/dvdauthor/ftp/%{name}-doc-0.6.17.tar.gz
-Patch0:		dvdauthor-imagemagick-0.6.18.patch
+Patch0:		dvdauthor-imagemagick-0.7.0.patch
 BuildRequires:	libxml2-devel >= 2.6.0
 BuildRequires:	freetype2-devel
 BuildRequires:	fribidi-devel
