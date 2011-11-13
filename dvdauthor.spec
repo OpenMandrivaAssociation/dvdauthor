@@ -1,13 +1,17 @@
 Summary:	A simple set of tools to help you author a DVD
 Name:		dvdauthor
 Version:	0.7.0
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPLv2
 Group:		Video
 Url:		http://dvdauthor.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/project/dvdauthor/dvdauthor/%{version}/%{name}-%{version}.tar.gz
 Source1:	http://www.joonet.de/dvdauthor/ftp/%{name}-doc-0.6.17.tar.gz
 Patch0:		dvdauthor-imagemagick-0.7.0.patch
+# https://github.com/ldo/dvdauthor/commit/5c25b84
+Patch1:		dvdauthor-0.7.0-unset-home-650433.patch
+# https://github.com/ldo/dvdauthor/commit/c82aaa4
+Patch2:		dvdauthor-0.7.0-libpng15.patch
 BuildRequires:	libxml2-devel >= 2.6.0
 BuildRequires:	freetype2-devel
 BuildRequires:	fribidi-devel
@@ -31,6 +35,8 @@ and put the video format you want (NTSC or PAL) there.
 %prep
 %setup -q -n %{name} -a 1
 %patch0 -p0
+%patch1 -p1
+%patch2 -p1
 
 autoreconf -fi
 
