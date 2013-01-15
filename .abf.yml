@@ -1,3 +1,5 @@
+removed_sources:
+  dvdauthor-0.7.0.tar.gz: 39501f826ae9cc6b334160ebb9c01ce9c91b31d4
 sources:
-  "dvdauthor-0.7.0.tar.gz": 39501f826ae9cc6b334160ebb9c01ce9c91b31d4
-  "dvdauthor-doc-0.6.17.tar.gz": d5e9bf80602a63addad4fda19ff39bd7b75e1779
+  dvdauthor-0.7.1.tar.gz: a9636d165bf546e3e2b25b7397c33dbfa2895e6a
+  dvdauthor-doc-0.6.17.tar.gz: d5e9bf80602a63addad4fda19ff39bd7b75e1779
