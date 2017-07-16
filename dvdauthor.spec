@@ -11,6 +11,7 @@ Source1:	http://www.joonet.de/dvdauthor/ftp/%{name}-doc-0.6.17.tar.gz
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	gettext-devel
+BuildRequires:	docbook-utils
 BuildRequires:	pkgconfig(dvdread)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(fribidi)
