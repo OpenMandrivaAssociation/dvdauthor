@@ -15,7 +15,7 @@ BuildRequires:	docbook-utils docbook-dtds
 BuildRequires:	pkgconfig(dvdread)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(fribidi)
-BuildRequires:	pkgconfig(ImageMagick) > 7.0
+BuildRequires:	pkgconfig(ImageMagick) < 7.0
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(zlib)
@@ -47,8 +47,7 @@ cp %{_datadir}/gettext/config.rpath autotools/
 autoreconf -fi
 
 %build
-%configure \
---with-imagemagick
+%configure
 %make
 
 %install
