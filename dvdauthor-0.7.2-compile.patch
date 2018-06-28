@@ -1,0 +1,16 @@
+diff -up dvdauthor-0.7.2/src/dvdvob.c.omv~ dvdauthor-0.7.2/src/dvdvob.c
+--- dvdauthor-0.7.2/src/dvdvob.c.omv~	2018-06-29 00:51:09.569080280 +0200
++++ dvdauthor-0.7.2/src/dvdvob.c	2018-06-29 00:51:36.549081286 +0200
+@@ -360,10 +360,10 @@ static void transpose_ts(unsigned char *
+                 buf[16 + sysoffs] == 1
+             &&
+                 (
+-                    buf[17 + sysoffs] == MPID_PRIVATE1
++                    (buf[17 + sysoffs] == MPID_PRIVATE1)
+                       /* audio or subpicture stream */
+                 ||
+-                    buf[17 + sysoffs] >= MPID_AUDIO_FIRST && buf[17 + sysoffs] <= MPID_VIDEO_LAST
++                    ((buf[17 + sysoffs] >= MPID_AUDIO_FIRST) && (buf[17 + sysoffs] <= MPID_VIDEO_LAST))
+                       /* audio or video stream */
+                 )
+             &&

@@ -1,12 +1,13 @@
 Summary:	A simple set of tools to help you author a DVD
 Name:		dvdauthor
 Version:	0.7.2
-Release:	2
+Release:	3
 License:	GPLv2
 Group:		Video
 Url:		http://dvdauthor.sourceforge.net/
 Source0:	https://github.com/ldo/dvdauthor/archive/%{version}.tar.gz
 Source1:	http://www.joonet.de/dvdauthor/ftp/%{name}-doc-0.6.17.tar.gz
+Patch0:		dvdauthor-0.7.2-compile.patch
 
 BuildRequires:	bison
 BuildRequires:	flex
@@ -15,17 +16,10 @@ BuildRequires:	docbook-utils docbook-dtds
 BuildRequires:	pkgconfig(dvdread)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(fribidi)
-#BuildRequires:	pkgconfig(ImageMagick) < 7.0
+BuildRequires:	pkgconfig(ImageMagick) < 7.0
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(zlib)
-
-%track
-prog %name = {
-	url = http://sourceforge.net/projects/dvdauthor/files/
-	regex = %name-(__VER__)\.tar\.gz
-	version = %version
-}
 
 %description
 A simple set of tools to help you author a DVD. The idea is to be able to
