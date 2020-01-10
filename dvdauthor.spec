@@ -32,7 +32,7 @@ and put the video format you want (NTSC or PAL) there.
 
 %prep
 %setup -q -a 1
-%apply_patches
+%autopatch -p1
 
 mv %{name}-doc-0.6.17/html .
 
