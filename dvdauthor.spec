@@ -1,7 +1,7 @@
 Summary:	A simple set of tools to help you author a DVD
 Name:		dvdauthor
 Version:	0.7.2
-Release:	5
+Release:	6
 License:	GPLv2
 Group:		Video
 Url:		http://dvdauthor.sourceforge.net/
@@ -42,10 +42,10 @@ autoreconf -fi
 
 %build
 %configure
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 # (ahmad) Starting from 0.7, dvdauthor doesn't specify a default video format
 # previoulsy it defaulted to NTSC
