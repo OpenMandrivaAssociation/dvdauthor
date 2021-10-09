@@ -1,0 +1,75 @@
+diff -Nru a/configure.ac b/configure.ac
+--- a/configure.ac	2016-12-31 00:25:38.000000000 +0100
++++ b/configure.ac	2018-01-21 09:37:04.301772890 +0100
+@@ -1,4 +1,4 @@
+-AC_INIT(DVDAuthor,0.7.2,dvdauthor-users@lists.sourceforge.net)
++AC_INIT(DVDAuthor,0.7.2+,dvdauthor-users@lists.sourceforge.net)
+ 
+ AC_CONFIG_HEADERS(src/config.h)
+ AC_CONFIG_AUX_DIR(autotools)
+@@ -45,35 +45,30 @@
+     config_static='--static'
+ fi
+ 
+-usemagick=0
+-
+-AC_CHECK_PROGS(MAGICKCONFIG, [MagickCore-config])
+-if test -n "$MAGICKCONFIG"; then
+-    ac_save_CPPFLAGS="$CPPFLAGS"
+-    ac_save_LIBS="$LIBS"
+-    MAGICK_CPPFLAGS="`$MAGICKCONFIG --cppflags`"
+-    MAGICK_LIBS="`$MAGICKCONFIG --ldflags` `$MAGICKCONFIG --libs`"
+-    CPPFLAGS="$CPPFLAGS $MAGICK_CPPFLAGS"
+-    LIBS="$MAGICK_LIBS $LIBS"
+-    AC_CHECK_FUNC(ExportImagePixels, usemagick=1, AC_MSG_NOTICE([ImageMagick does not support the function
+-         ExportImagePixels.  Please upgrade to ImageMagick 5.5.7 or newer]))
+-    CPPFLAGS="$ac_save_CPPFLAGS"
+-    LIBS="$ac_save_LIBS"
+-    if test "$usemagick" = 1; then
+-        AC_DEFINE(HAVE_MAGICK, 1, [Whether the ImageMagick libraries are available])
+-    fi
++use_imagemagick=0
++use_graphicsmagick=0
++AC_ARG_WITH([imagemagick], AS_HELP_STRING([--with-imagemagick], [Use ImageMagick to augment image import formats]), [if test "$withval" != "no"; then use_imagemagick=1; fi])
++AC_ARG_WITH([graphicsmagick], AS_HELP_STRING([--with-graphicsmagick], [Use GraphicsMagick to augment image import formats]), [if test "$withval" != "no"; then use_graphicsmagick=1; fi])
++if test "$use_imagemagick" = 1 && test "$use_graphicsmagick" = 1; then
++    AC_MSG_ERROR([cannot specify both --with-imagemagick and --with-graphicsmagick], 1)
+ fi
+ 
+-if test "$usemagick" != 1; then
+-    PKG_CHECK_MODULES([MAGICK], [GraphicsMagick], usemagick=1; [AC_DEFINE(HAVE_GMAGICK, 1, [whether the GraphicsMagick libraries are available])], [:])
++if test "$use_imagemagick" = 1; then
++    PKG_CHECK_MODULES([IMAGEMAGICK], [ImageMagick >= 5.5.7], [AC_DEFINE(HAVE_MAGICK, 1, [Whether the ImageMagick libraries are available])], [AC_MSG_ERROR([ImageMagick not available])])
++    MAGICK_CFLAGS="$IMAGEMAGICK_CFLAGS"
++    MAGICK_LIBS="$IMAGEMAGICK_LIBS"
+ fi
+-
+-if test "$usemagick" != 1; then
+-    MAGICK_CPPFLAGS="$LIBPNG_CFLAGS"
++if test "$use_graphicsmagick" = 1; then
++    PKG_CHECK_MODULES([GRAPHICSMAGICK], [GraphicsMagick], [AC_DEFINE(HAVE_GMAGICK, 1, [whether the GraphicsMagick libraries are available])], [AC_MSG_ERROR([GraphicsMagick not available])])
++    MAGICK_CFLAGS="$GRAPHICSMAGICK_CFLAGS"
++    MAGICK_LIBS="$GRAPHICSMAGICK_LIBS"
++fi
++if test "$use_imagemagick" != 1 && test "$use_graphicsmagick" != 1; then
++    MAGICK_CFLAGS="$LIBPNG_CFLAGS"
+     MAGICK_LIBS="$LIBPNG_LIBS"
+ fi
+ 
+-AC_SUBST(MAGICK_CPPFLAGS)
++AC_SUBST(MAGICK_CFLAGS)
+ AC_SUBST(MAGICK_LIBS)
+ 
+ PKG_CHECK_MODULES([FONTCONFIG], [fontconfig], [AC_DEFINE(HAVE_FONTCONFIG, 1, [whether Fontconfig is available])], [:])
+diff -Nru a/src/Makefile.am b/src/Makefile.am
+--- a/src/Makefile.am	2016-10-25 02:26:59.000000000 +0200
++++ b/src/Makefile.am	2018-01-21 09:50:23.056718986 +0100
+@@ -8,7 +8,7 @@
+ nodist_bin_SCRIPTS = dvddirdel
+ 
+ AM_CPPFLAGS = -DSYSCONFDIR="\"$(sysconfdir)\"" \
+-    @XML_CPPFLAGS@ @MAGICK_CPPFLAGS@ @FREETYPE_CPPFLAGS@ @FRIBIDI_CFLAGS@ @FONTCONFIG_CFLAGS@
++    @XML_CPPFLAGS@ @MAGICK_CFLAGS@ @FREETYPE_CPPFLAGS@ @FRIBIDI_CFLAGS@ @FONTCONFIG_CFLAGS@
+ AM_CFLAGS = -Wall
+ 
+ dvdauthor_SOURCES = dvdauthor.c common.h dvdauthor.h da-internal.h \
