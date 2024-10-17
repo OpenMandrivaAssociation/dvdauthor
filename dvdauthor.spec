@@ -4,7 +4,7 @@ Version:	0.7.2
 Release:	8
 License:	GPLv2
 Group:		Video
-Url:		http://dvdauthor.sourceforge.net/
+Url:		https://dvdauthor.sourceforge.net/
 Source0:	https://github.com/ldo/dvdauthor/archive/%{version}.tar.gz
 Source1:	http://www.joonet.de/dvdauthor/ftp/%{name}-doc-0.6.17.tar.gz
 Patch0:		dvdauthor-0.7.2-compile.patch
