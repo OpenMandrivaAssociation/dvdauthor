@@ -10,6 +10,11 @@ Source1:	http://www.joonet.de/dvdauthor/ftp/%{name}-doc-0.6.17.tar.gz
 Patch0:		dvdauthor-0.7.2-compile.patch
 Patch1:		dvdauthor-0.7.2-use-graphicsmagick.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	gettext-devel
