@@ -9,6 +9,8 @@ Source0:	https://github.com/ldo/dvdauthor/archive/%{version}.tar.gz
 Source1:	http://www.joonet.de/dvdauthor/ftp/%{name}-doc-0.6.17.tar.gz
 Patch0:		dvdauthor-0.7.2-compile.patch
 Patch1:		dvdauthor-0.7.2-use-graphicsmagick.patch
+# libxml2 2.14 removed libxml.m4, so AM_PATH_XML2 no longer exists
+Patch2:		dvdauthor-0.7.2-libxml2-pkgconfig.patch
 
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -51,10 +53,18 @@ autoreconf -fi
 	--with-graphicsmagick \
 	--enable-default-video-format=NTSC
 
-%make_build
+%make_build LIBTOOL=slibtool-shared
 
 %install
-%make_install
+%make_install LIBTOOL=slibtool-shared
+
+# The in-tree libtool links these as programs but does not leave a wrapper
+# next to the objects, so automake's install skips them.
+for b in dvdauthor dvdunauthor spumux spuunmux mpeg2desc; do
+	if [ ! -x %{buildroot}%{_bindir}/$b ]; then
+		install -p src/.libs/$b %{buildroot}%{_bindir}/$b
+	fi
+done
 
 # (ahmad) Starting from 0.7, dvdauthor doesn't specify a default video format
 # previoulsy it defaulted to NTSC

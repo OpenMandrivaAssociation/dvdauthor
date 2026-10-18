@@ -1,0 +1,18 @@
+libxml2 2.14 dropped libxml.m4, so AM_PATH_XML2 is no longer defined and
+autoreconf aborts. Detect libxml2 with pkg-config. XML_LIBS stays the
+name Makefile.am already uses; XML_CPPFLAGS follows XML_CFLAGS.
+
+--- a/configure.ac
++++ b/configure.ac
+@@ -135,10 +135,8 @@ dnl AM_LANGINFO_CODESET
+ 
+ AM_ICONV
+ 
+-ifdef([AM_PATH_XML2],
+-    [AM_PATH_XML2(2.6.0, , AC_MSG_ERROR([You must have libxml2 >= 2.6.0 installed]))],
+-    [errprint([You must have libxml2 (>= 2.6.0) installed
+-])m4_exit(1)AC_MSG_ERROR([You must have libxml2 (>= 2.6.0) installed])])
++PKG_CHECK_MODULES([XML], [libxml-2.0 >= 2.6.0])
++AC_SUBST([XML_CPPFLAGS], [$XML_CFLAGS])
+ 
+ AC_CHECK_DECLS(O_BINARY, , , [ #include <fcntl.h> ] )
